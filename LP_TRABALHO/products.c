@@ -1,6 +1,6 @@
 #include"products.h"
 #include <string.h>
-
+#include <stdlib.h>
 void productsManagementMenu(Products *products, MaterialsList *materialsList, unsigned short int menu) {
     do {
         menu = menuRead(MSG_ADMIN_PRODUCTS_MENU, 0, 6);
@@ -21,7 +21,7 @@ void productsManagementMenu(Products *products, MaterialsList *materialsList, un
                 break;
 
             case 3:
-                //removeProduct(*(&products));
+                removeProduct(products);
                 break;
 
             case 4:
@@ -41,6 +41,42 @@ void productsManagementMenu(Products *products, MaterialsList *materialsList, un
     } while (menu != 0);
 
 
+}
+void removeProduct(Products *products) {
+    int productID;
+
+    int i, j;
+    if (products->counter == 0) {
+        puts(NO_PRODUCTS_MSG);
+    } else {
+
+        scanf(" %d", &productID);
+        for (i = 0; i < products->counter; i++) {
+
+            if (products->product[i].productID == productID){
+                products->product[i].dimension[0] = products->product[i + 1].dimension[0];
+                products->product[i].dimension[1] = products->product[i + 1].dimension[1];
+                products->product[i].dimension[2] = products->product[i + 1].dimension[2];
+
+                products->product[i].price = products->product[i + 1].price;
+
+                strcpy(products->product[i].productName, products->product[i + 1].productName);
+                
+                products->product[i].usedMaterialsCounter = products->product[i + 1].usedMaterialsCounter;
+                products->product[i].materials = (Materials *)realloc(products->product[i].materials, 
+                                                                      sizeof(Materials) * products->product[i].usedMaterialsCounter);
+                printf("%d\n", products->product[i].usedMaterialsCounter);
+                
+                for (j = 0; j < products->product[i].usedMaterialsCounter; j++){
+                    products->product[i].materials[j].code = products->product[i + 1].materials[j].code;
+                    products->product[i].materials[j].quantity = products->product[i + 1].materials[j].quantity;
+                }
+            }
+        }
+        products->counter--;
+        products->product = (Product *)realloc(products->product, sizeof(Product *)*(products->counter));
+        printf(REMOVED_MSG);
+    }
 }
 
 void createProduct(Products * products, MaterialsList *materialsList) {
@@ -69,13 +105,11 @@ int codeExists(MaterialsList *materialList, int code){
     int i, counter = 0;
     for (i = 0; i < materialList->counter; i++)
     {
-            printf("Código na lista: %d\n", materialList->materialsLine[i].code);
         if (materialList->materialsLine[i].code == code){
-            printf("Passei por aqui");
             counter ++;
         }
     }
-    return (counter == 0);
+    return (counter == 0 && code != 0);
 }
 
 void useMaterials(Products *products, MaterialsList *materialsList, int position) {
@@ -89,7 +123,6 @@ void useMaterials(Products *products, MaterialsList *materialsList, int position
         printf(USE_MATERIALS_MENU);
         scanf(" %d", &code);
         }while(codeExists(materialsList, code));
-        printf(" %d", code);
         for (i = 0; i < products->product[position].usedMaterialsCounter; i++) {
             if (code == products->product[position].materials[i].code) {
                 aux = code;
