@@ -18,6 +18,7 @@ extern "C" {
 #endif
     
 #include "admin.h"
+#include "files.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include "auxi.h"
