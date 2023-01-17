@@ -30,7 +30,7 @@ void productsManagementMenu(Products *products, MaterialsList *materialsList, un
                 break;
 
             case 5:
-                //saveProduct(*(&products));
+                //saveP(*(&products));
                 break;
 
             case 6:
@@ -352,7 +352,7 @@ void materialsMenu(MaterialsList *materialsList, unsigned short int menu) {
                 break;
 
             case 5:
-                // saveMaterial(*(&materialsList));
+                saveMaterials(*(&materialsList));
                 break;
         }
 

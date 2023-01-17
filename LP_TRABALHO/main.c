@@ -24,6 +24,7 @@ int main() {
     materialsList-> materialsLine = (MaterialsLine*) malloc(sizeof (MaterialsLine)*1);
 
    loadCustomers(customer);
+   loadMaterials(materialsList);
    
     fflush(stdin);
     primaryMenu(customer,products,materialsList);

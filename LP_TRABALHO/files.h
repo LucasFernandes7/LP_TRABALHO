@@ -21,6 +21,8 @@ extern "C" {
 #include "auxi.h"
 void saveCustomers(Customers *customer);
 void loadCustomers(Customers *customer);
+void saveMaterials(MaterialsList * materialsList);
+void loadMaterials(MaterialsList * materialsList);
 
 
 

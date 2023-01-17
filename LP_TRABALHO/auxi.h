@@ -85,6 +85,8 @@ extern "C" {
                          "3 - Bedside table \n"\
                          "0 - Back"
 
+#define FILE_NAME_MATERIALS "materials.bin"
+
 #define REMOVED_MSG "Successfully Removed\n"
 
 #define NO_CUSTOMERS_MSG "No customers\n"
@@ -106,6 +108,7 @@ extern "C" {
 #define COSTUMER_COUNTRY_SIZE 20
 
 #define INVALID_MSG "Invalid Option\n"
+#define SAVED_MSG "Successfully Saved\n"
 
 #define DESCRIPTION_SIZE 20
 
@@ -114,7 +117,7 @@ extern "C" {
 #define MSG_TYPE "\nInsert type\n"\
                    "0-Single\n"\
                    "1-Pair"
-    
+
 #define EDIT_MATERIALS_MENU "\nISelect which one you wnat to edit\n"\
                     "1-Description\n"\
                     "2-Type\n"\
@@ -145,7 +148,7 @@ extern "C" {
     typedef struct {
         Type type;
         int code;
-        char  description[DESCRIPTION_SIZE];
+        char description[DESCRIPTION_SIZE];
     } MaterialsLine;
 
     typedef struct {

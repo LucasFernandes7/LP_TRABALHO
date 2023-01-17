@@ -4,8 +4,11 @@
  */
 #include "admin.h"
 #include "customer.h"
+#include "auxi.h"
+#include "products.h"
 #include <stdlib.h>
 #include <stdio.h>
+
 
 
 
@@ -49,6 +52,40 @@ void loadCustomers(Customers *customer) {
     }
     fclose(fp);
 }
+void saveMaterials(MaterialsList * materialsList) {
+    int i;
+    FILE *fp;
+    fp = fopen(FILE_NAME_MATERIALS, "wb+");
+    if (fp == NULL)
+        exit(EXIT_FAILURE);
+    fwrite(&materialsList->counter, sizeof (int), 1, fp);
+    for (i = 0; i < materialsList->counter; i++) {
+        fwrite(&materialsList->materialsLine[i].code, sizeof (int), 1, fp);
+        fwrite(&materialsList->materialsLine[i].description, sizeof (char)*DESCRIPTION_SIZE, 1, fp);
+        fwrite(&materialsList->materialsLine[i].type, sizeof (Type), 1, fp);
+    }
+    fclose(fp);
+    
+    printf(SAVED_MSG);
+}
 
+
+
+void loadMaterials(MaterialsList * materialsList) {
+
+    int i;
+    FILE *fp;
+    fp = fopen(FILE_NAME_MATERIALS, "rb+");
+    if (fp == NULL)
+        exit(EXIT_FAILURE);
+
+    fread(&materialsList->counter, sizeof (int), 1, fp);
+    for (i = 0; i < materialsList->counter; i++) {
+        fread(&materialsList->materialsLine[i].code, sizeof (int), 1, fp);
+        fread(&materialsList->materialsLine[i].description, sizeof (char)*DESCRIPTION_SIZE, 1, fp);
+        fread(&materialsList->materialsLine[i].type, sizeof (Type), 1, fp);
+    }
+    fclose(fp);
+}
 
 
