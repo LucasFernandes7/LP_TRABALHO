@@ -65,6 +65,18 @@ void createProduct(Products * products, MaterialsList *materialsList) {
         products->counter++;
     }
 }
+int codeExists(MaterialsList *materialList, int code){
+    int i, counter = 0;
+    for (i = 0; i < materialList->counter; i++)
+    {
+            printf("Código na lista: %d\n", materialList->materialsLine[i].code);
+        if (materialList->materialsLine[i].code == code){
+            printf("Passei por aqui");
+            counter ++;
+        }
+    }
+    return (counter == 0);
+}
 
 void useMaterials(Products *products, MaterialsList *materialsList, int position) {
 
@@ -73,9 +85,11 @@ void useMaterials(Products *products, MaterialsList *materialsList, int position
     unsigned short int aux;
     listMaterials(*(&materialsList));
     do {
-
-        code = menuRead(USE_MATERIALS_MENU, 0, materialsList->counter);
-
+        do{
+        printf(USE_MATERIALS_MENU);
+        scanf(" %d", &code);
+        }while(codeExists(materialsList, code));
+        printf(" %d", code);
         for (i = 0; i < products->product[position].usedMaterialsCounter; i++) {
             if (code == products->product[position].materials[i].code) {
                 aux = code;
@@ -280,10 +294,10 @@ void listProducts(Products *products) {
     for (i = 0; i < products->counter; i++) {
         fflush(stdin);
         printf("\nProduct ID: %d \n \
-Product Name: %s \n \
-Dimensions: %f x %f x %f\n \
-Price: %f \n \
-Materials Used: %d", products->product[i].productID,
+        Product Name: %s \n \
+        Dimensions: %f x %f x %f\n \
+        Price: %f \n \
+        Materials Used: %d", products->product[i].productID,
                 products->product[i].productName,
                 products->product[i].dimension[0],
                 products->product[i].dimension[1],
