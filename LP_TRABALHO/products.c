@@ -101,7 +101,7 @@ void useMaterials(Products *products, MaterialsList *materialsList, int position
 void materialQuantity(int quantity) {
     do {
         printf("How many?\n");
-        scanf("%d", quantity);
+        scanf("%d", &quantity);
 
         if (quantity < 0) {
             printf(INVALID_MSG);
@@ -258,7 +258,7 @@ int askProductID(Products *products, int productID) {
     int i;
     do {
         printf("Insert the product's ID:\n");
-        scanf("%hu", &productID);
+        scanf(" %d", &productID);
 
         if (productID < 0 || productID > products->product[products->counter - 1].productID) {
             printf(INVALID_MSG);
