@@ -95,6 +95,7 @@ void createProduct(Products * products, MaterialsList *materialsList) {
         products->product[products->counter].productID = products->product[products->counter - 1].productID + 1;
 
         newProductName(products->product[products->counter].productName);
+        products->product[products->counter].materials = (Materials*) malloc(sizeof (Materials)*1);
 
         useMaterials(*(&products), *(&materialsList), products->counter);
 
@@ -133,7 +134,6 @@ int codeExists(MaterialsList *materialsList, Products *products, int position, i
 }
 
 void useMaterials(Products *products, MaterialsList *materialsList, int position) {
-
     int code;
     int i;
     unsigned short int aux = 0;
@@ -148,8 +148,10 @@ void useMaterials(Products *products, MaterialsList *materialsList, int position
                 break;
             }
         }
+
         if (code != 0 && code != aux) {
-            products->product->materials = realloc(products->product->materials, sizeof (Materials)*(products->product->usedMaterialsCounter) + 1);
+            products->product[position].materials = (Materials *)realloc(products->product[position].materials, 
+                                                                sizeof (Materials)*(products->product[position].usedMaterialsCounter + 1));
 
             products->product[position].materials[ products->product->usedMaterialsCounter].code = code;
 

@@ -151,11 +151,10 @@ void loadProducts(Products * products) {
         fread(&products->product[i].productID, sizeof (int), 1, fp);
 
         fread(&products->product[i].usedMaterialsCounter, sizeof (int), 1, fp);
-
+        products->product[i].materials = (Materials *)realloc(products->product[i].materials, sizeof(Materials) * products->product[i].usedMaterialsCounter);
         for (j = 0; j < products->product[i].usedMaterialsCounter; j++) {
             fread(&products->product[i].materials[j].code, sizeof (int), 1, fp);
             fread(&products->product[i].materials[j].quantity, sizeof (int), 1, fp);
-
         }
         fclose(fp);
         printf(LOAD_MSG);

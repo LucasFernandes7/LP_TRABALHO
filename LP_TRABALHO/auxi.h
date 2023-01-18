@@ -198,11 +198,14 @@ extern "C" {
     } State;
 
     typedef struct {
+    int day, month, year;
+    }Date;
+    typedef struct {
         int IDcustomer;
         OrderedProduct * orderedProduct;
         State state;
         int orderedProductsCounter;
-        //DATA    
+        Date orderDate;    
     } Order;
 
     typedef struct {

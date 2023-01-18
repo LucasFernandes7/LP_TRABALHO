@@ -6,8 +6,13 @@ void buy(Products * products, Customers * customer, Orders * orders) {
     if (products->counter == 0 || customer->userCounter == 0) {
         printf(INVALID_SHOP);
     } else {
+        orders-> order = (Order*) realloc(orders->order, sizeof (Order)*(orders->ordersConter + 1));
 
         id = askID(*(&customer), id);
+        printf("%d", id);
+        
+        orders->order[orders->ordersConter].orderedProduct = (OrderedProduct*) malloc(sizeof(OrderedProduct)*1);
+
         orders->order[orders->ordersConter].IDcustomer = id;
 
                 choseProducts(products, orders);
@@ -33,6 +38,8 @@ void choseProducts(Products * products, Orders * orders) {
 
     do {
         printf(USE_PRODUCTS_MENU);
+        orders->order[orders->ordersConter].orderedProduct = (OrderedProduct*) realloc(orders->order[orders->ordersConter].orderedProduct,
+                                                                                        sizeof(OrderedProduct)*(orders->order[orders->ordersConter].orderedProductsCounter + 1));
 
         productID = askProductID(products,  productID);
 

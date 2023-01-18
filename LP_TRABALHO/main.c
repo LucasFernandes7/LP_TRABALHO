@@ -19,7 +19,6 @@ int main() {
 
     products = (Products*) malloc(sizeof (Products)*1);
     products-> product = (Product*) malloc(sizeof (Product)*1);
-    products-> product->materials = (Materials*) malloc(sizeof (Materials)*1);
 
 
     materialsList = (MaterialsList*) malloc(sizeof (MaterialsList)*1);
@@ -27,7 +26,6 @@ int main() {
 
     orders = (Orders*) malloc(sizeof (Orders)*1);
     orders-> order = (Order*) malloc(sizeof (Order)*1);
-    orders-> order->orderedProduct = (OrderedProduct*) malloc(sizeof (OrderedProduct)*1);
 
 
     fflush(stdin);
