@@ -1,5 +1,6 @@
 #include"products.h"
 #include <string.h>
+#include <stdlib.h>
 
 void productsManagementMenu(Products *products, MaterialsList *materialsList, unsigned short int menu) {
     do {
@@ -21,7 +22,7 @@ void productsManagementMenu(Products *products, MaterialsList *materialsList, un
                 break;
 
             case 3:
-                //removeProduct(*(&products));
+                removeProduct(products);
                 break;
 
             case 4:
@@ -44,7 +45,7 @@ void productsManagementMenu(Products *products, MaterialsList *materialsList, un
 }
 
 void removeProduct(Products * products) {
-    int  position;
+    int position;
     char temp;
     int i, j;
 
@@ -106,7 +107,7 @@ void createProduct(Products * products, MaterialsList *materialsList) {
     }
 }
 
-int codeExists(MaterialsList *materialsList,Products *products,int position, int code) {
+int codeExists(MaterialsList *materialsList, Products *products, int position, int code) {
     int i;
     int counter = 0;
     do {
@@ -127,7 +128,7 @@ int codeExists(MaterialsList *materialsList,Products *products,int position, int
             printf(INVALID_MSG);
         }
 
-    } while (counter == 0|| products->product[position].usedMaterialsCounter != 0);
+    } while (counter == 0 || products->product[position].usedMaterialsCounter != 0);
     return code;
 }
 
@@ -138,7 +139,8 @@ void useMaterials(Products *products, MaterialsList *materialsList, int position
     unsigned short int aux = 0;
     listMaterials(*(&materialsList));
     do {
-        code = codeExists(materialsList,products,position, code);
+
+        code = codeExists(materialsList, products, position, code);
 
         for (i = 0; i < products->product[position].usedMaterialsCounter; i++) {
             if (code == products->product[position].materials[i].code) {
@@ -159,7 +161,7 @@ void useMaterials(Products *products, MaterialsList *materialsList, int position
         } else if (code == aux) {
             printf("Already using this material\n");
         }
-    } while (code != 0 );
+    } while (code != 0);
 }
 
 void quantity(int *quantity) {
@@ -313,10 +315,11 @@ void removeUsedMaterial(Products *products, int position) {
         printf(REMOVED_MSG);
     }
 }
+
 int askProductID(Products *products, int productID) {
     int i;
-    
-    int counter= 0;
+
+    int counter = 0;
     do {
         printf("Insert the product's ID:\n");
         scanf(" %d", &productID);
@@ -337,9 +340,10 @@ int askProductID(Products *products, int productID) {
                 }
             }
         }
-    } while (counter=0);
+    } while (counter = 0);
     return productID;
 }
+
 int askProductPosition(Products *products, int position) {
     int i;
     int productID;
@@ -367,7 +371,7 @@ int askProductPosition(Products *products, int position) {
     return position;
 }
 
-void listProducts(Products *products) {
+void listProducts(Products * products) {
 
     int i, j;
 
@@ -441,7 +445,7 @@ void materialsMenu(MaterialsList *materialsList, unsigned short int menu) {
 
 }
 
-void createMaterial(MaterialsList *materialsList) {
+void createMaterial(MaterialsList * materialsList) {
 
     materialsList->materialsLine = realloc(materialsList->materialsLine, sizeof (MaterialsLine)*(materialsList->counter + 1));
 
@@ -455,7 +459,7 @@ void createMaterial(MaterialsList *materialsList) {
 
 }
 
-void newType(Type *type) {
+void newType(Type * type) {
 
     *type = menuRead(MSG_TYPE, 0, 1);
 }
@@ -542,7 +546,7 @@ int askCode(MaterialsList *materialsList, short int code) {
     return code;
 }
 
-void removeMaterial(MaterialsList *materialsList) {
+void removeMaterial(MaterialsList * materialsList) {
     short int code;
     char temp;
     int i;
@@ -567,7 +571,7 @@ void removeMaterial(MaterialsList *materialsList) {
     }
 }
 
-void listMaterials(MaterialsList *materialsList) {
+void listMaterials(MaterialsList * materialsList) {
 
     int i;
 
