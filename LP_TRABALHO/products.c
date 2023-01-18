@@ -30,7 +30,7 @@ void productsManagementMenu(Products *products, MaterialsList *materialsList, un
                 break;
 
             case 5:
-                //saveP(*(&products));
+                saveProducts(*(&products));
                 break;
 
             case 6:
@@ -40,6 +40,46 @@ void productsManagementMenu(Products *products, MaterialsList *materialsList, un
 
     } while (menu != 0);
 
+
+}
+
+void removeProduct(Products * products) {
+    int  position;
+    char temp;
+    int i, j;
+
+    if (products->counter == 0) {
+        puts(NO_PRODUCTS_MSG);
+    } else {
+
+        position = askProductPosition((*(&products)), position);
+
+        for (i = 0; i < (products->counter); i++) {
+            products->product[position + i].dimension[0] = products->product[position + 1 + i].dimension[0];
+            products->product[position + i].dimension[1] = products->product[position + 1 + i].dimension[1];
+            products->product[position + i].dimension[2] = products->product[position + 1 + i].dimension[2];
+
+            products->product[position + i].price = products->product[position + 1 + i].price;
+
+            products->product[position + i].productID = products->product[position + 1 + i].productID;
+
+            strcpy(products->product[position + i].productName, products->product[position + 1 + i].productName);
+
+            products->product[position + i].usedMaterialsCounter = products->product[position + 1 + i].usedMaterialsCounter;
+
+            products->product[position + i].materials = realloc(products->product[position + i].materials,
+                    sizeof (Materials)*(products->product[position + i].usedMaterialsCounter));
+
+            for (j = 0; j < (products->product[position + i].usedMaterialsCounter); j++) {
+                products->product[position + i].materials[j].code = products->product[position + i].materials[j].code;
+                products->product[position + i].materials[j].quantity = products->product[position + i].materials[j].quantity;
+            }
+
+        }
+        products->counter--;
+        products->product = realloc(products->product, sizeof (Product)*(products->counter));
+        printf(REMOVED_MSG);
+    }
 
 }
 
@@ -65,31 +105,41 @@ void createProduct(Products * products, MaterialsList *materialsList) {
         products->counter++;
     }
 }
-int codeExists(MaterialsList *materialList, int code){
-    int i, counter = 0;
-    for (i = 0; i < materialList->counter; i++)
-    {
-            printf("Código na lista: %d\n", materialList->materialsLine[i].code);
-        if (materialList->materialsLine[i].code == code){
-            printf("Passei por aqui");
-            counter ++;
+
+int codeExists(MaterialsList *materialsList,Products *products,int position, int code) {
+    int i;
+    int counter = 0;
+    do {
+        printf(USE_MATERIALS_MENU);
+        scanf(" %d", &code);
+        fflush(stdin);
+        if (code == 0 && products->product[position].usedMaterialsCounter > 0) {
+            break;
         }
-    }
-    return (counter == 0);
+        for (i = 0; i < materialsList->counter; i++) {
+
+            if (materialsList->materialsLine[i].code == code) {
+                counter++;
+            }
+        }
+
+        if (counter == 0) {
+            printf(INVALID_MSG);
+        }
+
+    } while (counter == 0|| products->product[position].usedMaterialsCounter != 0);
+    return code;
 }
 
 void useMaterials(Products *products, MaterialsList *materialsList, int position) {
 
     int code;
     int i;
-    unsigned short int aux;
+    unsigned short int aux = 0;
     listMaterials(*(&materialsList));
     do {
-        do{
-        printf(USE_MATERIALS_MENU);
-        scanf(" %d", &code);
-        }while(codeExists(materialsList, code));
-        printf(" %d", code);
+        code = codeExists(materialsList,products,position, code);
+
         for (i = 0; i < products->product[position].usedMaterialsCounter; i++) {
             if (code == products->product[position].materials[i].code) {
                 aux = code;
@@ -101,7 +151,7 @@ void useMaterials(Products *products, MaterialsList *materialsList, int position
 
             products->product[position].materials[ products->product->usedMaterialsCounter].code = code;
 
-            materialQuantity(products->product[position].materials[ products->product[position].usedMaterialsCounter].quantity);
+            quantity(&products->product[position].materials[ products->product[position].usedMaterialsCounter].quantity);
 
             products->product[position].usedMaterialsCounter++;
         } else if (code == 0) {
@@ -109,18 +159,18 @@ void useMaterials(Products *products, MaterialsList *materialsList, int position
         } else if (code == aux) {
             printf("Already using this material\n");
         }
-    } while (code != 0);
+    } while (code != 0 );
 }
 
-void materialQuantity(int quantity) {
+void quantity(int *quantity) {
     do {
         printf("How many?\n");
-        scanf("%d", &quantity);
+        scanf("%d", quantity);
 
-        if (quantity < 0) {
+        if (quantity <= 0) {
             printf(INVALID_MSG);
         }
-    } while (quantity < 0);
+    } while (quantity <= 0);
 }
 
 void newProductName(char name[PRODUCT_SIZE_NAME]) {
@@ -136,36 +186,36 @@ void newPrice(float *price) {
     do {
         printf("\n Insert product's price[€]:\n");
         scanf("%f", price);
-        if (price < 0) {
+        if (price <= 0) {
             printf(INVALID_MSG);
         }
-    } while (price < 0);
+    } while (price <= 0);
 }
 
 void newDimensions(float dimension[]) {
     do {
         printf("\n How high is it?[cm]\n");
         scanf("%f", &dimension[0]);
-        if (dimension[0] < 0) {
+        if (dimension[0] <= 0) {
             printf(INVALID_MSG);
         }
-    } while (dimension[0] < 0);
+    } while (dimension[0] <= 0);
 
     do {
         printf("\n How long is it?[cm]\n");
         scanf("%f", &dimension[1]);
-        if (dimension[1] < 0) {
+        if (dimension[1] <= 0) {
             printf(INVALID_MSG);
         }
-    } while (dimension[1] < 0);
+    } while (dimension[1] <= 0);
 
     do {
         printf("\n How wide is it?[cm]\n");
         scanf("%f", &dimension[2]);
-        if (dimension[2] < 0) {
+        if (dimension[2] <= 0) {
             printf(INVALID_MSG);
         }
-    } while (dimension[2] < 0);
+    } while (dimension[2] <= 0);
 }
 
 void editProduct(Products *products, MaterialsList *materialsList, unsigned short int menu) {
@@ -177,12 +227,8 @@ void editProduct(Products *products, MaterialsList *materialsList, unsigned shor
         puts(NO_PRODUCTS_MSG);
     } else {
 
-        productID = askProductID((*(&products)), productID);
-        for (i = 0; i < products->product[products->counter].productID; i++) {
-            if (products->product[i].productID == productID) {
-                position = i;
-            }
-        }
+        position = askProductPosition((*(&products)), position);
+
         do {
             menu = menuRead(MSG_PRODUCTS_EDIT_MENU, 0, 4);
             switch (menu) {
@@ -191,15 +237,15 @@ void editProduct(Products *products, MaterialsList *materialsList, unsigned shor
                     break;
 
                 case 2:
-                    newProductName(products->product[products->counter].productName);
+                    newProductName(products->product[position].productName);
                     break;
 
                 case 3:
-                    newDimensions(products->product[products->counter].dimension);
+                    newDimensions(products->product[position].dimension);
                     break;
 
                 case 4:
-                    newPrice(&products->product[products->counter].price);
+                    newPrice(&products->product[position].price);
                     break;
             }
         } while (menu != 0);
@@ -235,7 +281,7 @@ void editProductsMaterials(Products *products, MaterialsList *materialsList, sho
                     }
                 }
 
-                materialQuantity(products->product[position].materials[position].quantity);
+                quantity(&products->product[position].materials[position].quantity);
                 break;
 
             case 3:
@@ -267,9 +313,36 @@ void removeUsedMaterial(Products *products, int position) {
         printf(REMOVED_MSG);
     }
 }
-
 int askProductID(Products *products, int productID) {
     int i;
+    
+    int counter= 0;
+    do {
+        printf("Insert the product's ID:\n");
+        scanf(" %d", &productID);
+
+        if (productID == 0 || productID > products->product[products->counter - 1].productID) {
+            printf(INVALID_MSG);
+            printf("Valid options:\n");
+
+            for (i = 0; i < products->counter; i++) {
+                printf("Product ID: %d \n", products->product[i].productID);
+            }
+            printf("\n");
+        } else {
+            for (i = 0; i < products->product[products->counter].productID; i++) {
+                if (products->product[i].productID == productID) {
+                    counter++;
+                    break;
+                }
+            }
+        }
+    } while (counter=0);
+    return productID;
+}
+int askProductPosition(Products *products, int position) {
+    int i;
+    int productID;
     do {
         printf("Insert the product's ID:\n");
         scanf(" %d", &productID);
@@ -282,9 +355,16 @@ int askProductID(Products *products, int productID) {
                 printf("Product ID: %d \n", products->product[i].productID);
             }
             printf("\n");
+        } else {
+            for (i = 0; i < products->product[products->counter].productID; i++) {
+                if (products->product[i].productID == productID) {
+                    position = i;
+                    break;
+                }
+            }
         }
     } while (productID < 0 || productID > (products->product[products->counter - 1].productID));
-    return productID;
+    return position;
 }
 
 void listProducts(Products *products) {
@@ -295,8 +375,8 @@ void listProducts(Products *products) {
         fflush(stdin);
         printf("\nProduct ID: %d \n \
         Product Name: %s \n \
-        Dimensions: %f x %f x %f\n \
-        Price: %f \n \
+        Dimensions: %.2f x %.2f x %.2f\n \
+        Price: %.2f \n \
         Materials Used: %d", products->product[i].productID,
                 products->product[i].productName,
                 products->product[i].dimension[0],

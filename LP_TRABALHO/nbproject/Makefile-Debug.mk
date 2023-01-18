@@ -40,6 +40,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/customer.o \
 	${OBJECTDIR}/files.o \
 	${OBJECTDIR}/main.o \
+	${OBJECTDIR}/production.o \
 	${OBJECTDIR}/products.o
 
 
@@ -91,6 +92,11 @@ ${OBJECTDIR}/main.o: main.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -g -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.c
+
+${OBJECTDIR}/production.o: production.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -g -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/production.o production.c
 
 ${OBJECTDIR}/products.o: products.c
 	${MKDIR} -p ${OBJECTDIR}

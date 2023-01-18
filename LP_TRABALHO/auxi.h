@@ -20,6 +20,7 @@ extern "C" {
 #define MSG_PRIMARY_MENU "\n Welcome to Móveis para Todos \n"\
                          "1 - Customer \n"\
                          "2 - Admin \n"\
+                         "3 - Load\n"\
                          "0 - Exit \n"
 
 #define MSG_ADMIN_MENU "\n ADMIN PANEL \n"\
@@ -85,7 +86,17 @@ extern "C" {
                          "3 - Bedside table \n"\
                          "0 - Back"
 
+#define MSG_LOAD_MENU "\n LOAD MENU\n"\
+                         "1 - Customers \n"\
+                         "2 - Materials \n"\
+                         "3 - Products \n"\
+                         "0 - Back"
+
 #define FILE_NAME_MATERIALS "materials.bin"
+
+#define FILE_NAME_PRODUCTS "products.bin"
+
+ #define INVALID_SHOP "Can't buy anything whtout customers or products"
 
 #define REMOVED_MSG "Successfully Removed\n"
 
@@ -103,12 +114,15 @@ extern "C" {
 
 #define USE_MATERIALS_MENU "\nwhich material do you want to use?\n[0-Exit]\n"
 
+    #define USE_PRODUCTS_MENU "\nwhich product do you want to buy?\n[0-Exit]\n"
+
 #define COSTUMER_ADDRESS_SIZE 50
 
 #define COSTUMER_COUNTRY_SIZE 20
 
 #define INVALID_MSG "Invalid Option\n"
 #define SAVED_MSG "Successfully Saved\n"
+#define LOAD_MSG "Successfully Loaded\n"
 
 #define DESCRIPTION_SIZE 20
 
@@ -175,6 +189,29 @@ extern "C" {
         int counter;
     } Products;
 
+    typedef struct {
+        int productID;
+        int quantity;
+    } OrderedProduct;
+ typedef enum {
+        ToDo, Ready, delivered
+    } State;
+
+    typedef struct {
+        int IDcustomer;
+        OrderedProduct * orderedProduct;
+        State state;
+        int orderedProductsCounter;
+        //DATA    
+    } Order;
+
+    typedef struct {
+        Order * order;
+        int ordersConter;
+
+    } Orders;
+
+    
 
 #ifdef __cplusplus
 }

@@ -4,15 +4,14 @@
  */
 
 /* 
- * File:   customer.h
+ * File:   production.h
  * Author: RP
  *
- * Created on 27 de dezembro de 2022, 18:00
+ * Created on 17 de janeiro de 2023, 21:47
  */
 
-#ifndef CUSTOMER_H
-#define CUSTOMER_H
-
+#ifndef PRODUCTION_H
+#define PRODUCTION_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -24,21 +23,10 @@ extern "C" {
 #include "auxi.h"
 
 
-void buy(Products * products, Customers * customer, Orders * orders);
-
-void listProductsNames(Products * products);
-
-void choseProducts(Products * products, Orders * orders);
-
-
-
-
-
-
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* CUSTOMER_H */
+#endif /* PRODUCTION_H */
 

@@ -33,7 +33,7 @@ void createProduct(Products * products, MaterialsList *materialsList);
 
 void useMaterials(Products *products, MaterialsList *materialsList,int position);
 int askCode(MaterialsList *materialsList, short int code);
-void materialQuantity(int quantity);
+void quantity(int *quantity);
 void removeUsedMaterial(Products *products, int position);
 void newProductName(char name[PRODUCT_SIZE_NAME]);
 
@@ -46,7 +46,7 @@ void newPrice(float *price);
 void editProduct(Products *products, MaterialsList *materialsList, unsigned short int menu);
 
 
-
+int askProductPosition(Products *products, int position);
 int askProductID(Products *products, int productID);
 
 void editProductsMaterials(Products *products, MaterialsList *materialsList, short int productID);

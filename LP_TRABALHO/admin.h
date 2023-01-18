@@ -21,9 +21,9 @@ extern "C" {
 #include "products.h"   
     unsigned short int menuRead(char message[], unsigned short int min, unsigned short int max);
 
-    void primaryMenu(Customers *customer,Products *products, MaterialsList *materialsList);
+    void primaryMenu(Customers *customer, Products *products, MaterialsList *materialsList, Orders * orders);
 
-    void adminMenu(Customers *customer,Products *products, MaterialsList *materialsList, unsigned short int menu);
+    void adminMenu(Customers *customer, Products *products, MaterialsList *materialsList, unsigned short int menu);
 
     void customerManagementMenu(Customers *customer, unsigned short int menu);
 

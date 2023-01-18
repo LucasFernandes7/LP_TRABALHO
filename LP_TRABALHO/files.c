@@ -9,8 +9,23 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-
-
+void loadMenu(Customers *customer, Products *products, MaterialsList *materialsList, unsigned short int menu) {
+    do {
+        menu = menuRead(MSG_LOAD_MENU, 0, 3);
+        switch (menu) {
+            case 1:
+                loadCustomers(customer);
+                break;
+            case 2:
+                loadMaterials(materialsList);
+                break;
+            case 3 :
+                loadProducts(*(&products));
+                break;
+        }
+    } while (menu != 0);
+    printf(LOAD_MSG);
+}
 
 void saveCustomers(Customers *customer) {
     int i;
@@ -28,6 +43,7 @@ void saveCustomers(Customers *customer) {
         fwrite(&customer->customers[i].country, sizeof (char)*COSTUMER_COUNTRY_SIZE, 1, fp);
     }
     fclose(fp);
+    printf(SAVED_MSG);
 }
 
 void loadCustomers(Customers *customer) {
@@ -51,7 +67,9 @@ void loadCustomers(Customers *customer) {
         fread(&customer->customers[i].country, sizeof (char)*COSTUMER_COUNTRY_SIZE, 1, fp);
     }
     fclose(fp);
+    printf(LOAD_MSG);
 }
+
 void saveMaterials(MaterialsList * materialsList) {
     int i;
     FILE *fp;
@@ -65,11 +83,9 @@ void saveMaterials(MaterialsList * materialsList) {
         fwrite(&materialsList->materialsLine[i].type, sizeof (Type), 1, fp);
     }
     fclose(fp);
-    
+
     printf(SAVED_MSG);
 }
-
-
 
 void loadMaterials(MaterialsList * materialsList) {
 
@@ -86,6 +102,65 @@ void loadMaterials(MaterialsList * materialsList) {
         fread(&materialsList->materialsLine[i].type, sizeof (Type), 1, fp);
     }
     fclose(fp);
+    printf(LOAD_MSG);
 }
+
+void saveProducts(Products * products) {
+    int i, j;
+    FILE *fp;
+    fp = fopen(FILE_NAME_PRODUCTS, "wb+");
+    if (fp == NULL)
+        exit(EXIT_FAILURE);
+    fwrite(&products->counter, sizeof (int), 1, fp);
+    for (i = 0; i < products->counter; i++) {
+        fwrite(&products->product[i].dimension[0], sizeof (float), 1, fp);
+        fwrite(&products->product[i].dimension[1], sizeof (float), 1, fp);
+        fwrite(&products->product[i].dimension[2], sizeof (float), 1, fp);
+        fwrite(&products->product[i].productName, sizeof (char)*PRODUCT_SIZE_NAME, 1, fp);
+        fwrite(&products->product[i].price, sizeof (float), 1, fp);
+        fwrite(&products->product[i].productID, sizeof (int), 1, fp);
+
+        fwrite(&products->product[i].usedMaterialsCounter, sizeof (int), 1, fp);
+
+        for (j = 0; j < products->product[i].usedMaterialsCounter; j++) {
+            fwrite(&products->product[i].materials[j].code, sizeof (int), 1, fp);
+            fwrite(&products->product[i].materials[j].quantity, sizeof (int), 1, fp);
+
+        }
+        fclose(fp);
+
+        printf(SAVED_MSG);
+    }
+}
+
+void loadProducts(Products * products) {
+
+    int i, j;
+    FILE *fp;
+    fp = fopen(FILE_NAME_PRODUCTS, "rb+");
+    if (fp == NULL)
+        exit(EXIT_FAILURE);
+
+    fread(&products->counter, sizeof (int), 1, fp);
+    for (i = 0; i < products->counter; i++) {
+        fread(&products->product[i].dimension[0], sizeof (float), 1, fp);
+        fread(&products->product[i].dimension[1], sizeof (float), 1, fp);
+        fread(&products->product[i].dimension[2], sizeof (float), 1, fp);
+        fread(&products->product[i].productName, sizeof (char)*PRODUCT_SIZE_NAME, 1, fp);
+        fread(&products->product[i].price, sizeof (float), 1, fp);
+        fread(&products->product[i].productID, sizeof (int), 1, fp);
+
+        fread(&products->product[i].usedMaterialsCounter, sizeof (int), 1, fp);
+
+        for (j = 0; j < products->product[i].usedMaterialsCounter; j++) {
+            fread(&products->product[i].materials[j].code, sizeof (int), 1, fp);
+            fread(&products->product[i].materials[j].quantity, sizeof (int), 1, fp);
+
+        }
+        fclose(fp);
+        printf(LOAD_MSG);
+    }
+}
+
 
 

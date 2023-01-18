@@ -8,6 +8,7 @@
       <itemPath>auxi.h</itemPath>
       <itemPath>customer.h</itemPath>
       <itemPath>files.h</itemPath>
+      <itemPath>production.h</itemPath>
       <itemPath>products.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -22,6 +23,7 @@
       <itemPath>customer.c</itemPath>
       <itemPath>files.c</itemPath>
       <itemPath>main.c</itemPath>
+      <itemPath>production.c</itemPath>
       <itemPath>products.c</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -67,6 +69,10 @@
       </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
+      <item path="production.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="production.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="products.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="products.h" ex="false" tool="3" flavor2="0">
@@ -110,6 +116,10 @@
       <item path="files.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="production.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="production.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="products.c" ex="false" tool="0" flavor2="0">
       </item>

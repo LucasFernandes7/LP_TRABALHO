@@ -1,24 +1,49 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <malloc.h>
 
 #include "customer.h"
-#include "admin.h"
 
+void buy(Products * products, Customers * customer, Orders * orders) {
+    int id;
+    if (products->counter == 0 || customer->userCounter == 0) {
+        printf(INVALID_SHOP);
+    } else {
 
-void customerMenu(unsigned short int menu) {
+        id = askID(*(&customer), id);
+        orders->order[orders->ordersConter].IDcustomer = id;
 
+                choseProducts(products, orders);
+        
+        //DATA(ESCOLHER, ETC)
+        
+        
+        orders->ordersConter++;
+    }
+}
+
+void listProductsNames(Products * products) {
+    int i;
+    for (i = 0; i < products->counter; i++) {
+        printf(" %d - %s\n", products->product[i].productID, products->product[i].productName);
+    }
+
+}
+
+void choseProducts(Products * products, Orders * orders) {
+    int productID;
+    listProductsNames(products);
 
     do {
-        menu = menuRead(MSG_CUSTOMER_MENU, 0, 3);
-        switch (menu) {
+        printf(USE_PRODUCTS_MENU);
 
-            case 1:
+        productID = askProductID(products,  productID);
 
-               break;
-        }
+        orders->order[orders->ordersConter].orderedProduct[orders->order[orders->ordersConter].orderedProductsCounter].productID = productID;
 
-    } while (menu != 0);
+        quantity(& orders->order[orders->ordersConter].orderedProduct[orders->order[orders->ordersConter].orderedProductsCounter].quantity);
+
+        orders->order[orders->ordersConter].state = 0;
+
+        orders->order[orders->ordersConter].orderedProductsCounter++;
 
 
+    } while (productID != 0);
 }

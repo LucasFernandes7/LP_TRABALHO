@@ -23,28 +23,30 @@ unsigned short int menuRead(char message[], unsigned short int min, unsigned sho
 
 }
 
-void primaryMenu(Customers *customer,Products *products, MaterialsList *materialsList) {
+void primaryMenu(Customers *customer, Products *products, MaterialsList *materialsList, Orders * orders) {
 
     unsigned short int menu;
 
 
     do {
-        menu = menuRead(MSG_PRIMARY_MENU, 0, 2);
+        menu = menuRead(MSG_PRIMARY_MENU, 0, 3);
         switch (menu) {
 
             case 1:
-                customerMenu(menu);
+                buy(products, customer, orders);
                 break;
 
             case 2:
-                adminMenu(customer,&(*products), &(*materialsList), menu);
+                adminMenu(customer, &(*products), &(*materialsList), menu);
                 break;
+            case 3:
+                loadMenu(customer, &(*products), &(*materialsList), menu);
         }
     } while (menu != 0);
 
 }
 
-void adminMenu(Customers *customer,Products *products, MaterialsList *materialsList, unsigned short int menu) {
+void adminMenu(Customers *customer, Products *products, MaterialsList *materialsList, unsigned short int menu) {
 
     fflush(stdin);
     do {
@@ -188,9 +190,11 @@ void createCustomer(Customers *customer, unsigned short int menu) {
     newAddressCustomer(customer->customers[customer->userCounter].address);
 
     newCountryCustomer(customer->customers[customer->userCounter].country);
-
-    customer->customers[customer->userCounter].id = customer->customers[ customer->userCounter - 1].id + 1;
-
+    if (customer->userCounter != 0) {
+        customer->customers[customer->userCounter].id = customer->customers[ customer->userCounter - 1].id + 1;
+    } else {
+        customer->customers[customer->userCounter].id = 1;
+    }
     customer->userCounter++;
 
 
